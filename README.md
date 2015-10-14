@@ -126,7 +126,7 @@ public class SampleActivity extends Activity {
 
 ```
 
-* 载入网站
+* 载入网站：5秒轻游戏主站
 
 ```java
 
@@ -199,6 +199,15 @@ public class SampleActivity extends Activity {
     }
 }
 
+```
+
+* 载入网站：5秒轻游戏特定页面
+
+某些情况，比如合作商开展某些运营活动，需要直接进入5秒轻游戏的某个游戏，则可调用以下接口
+
+```java
+// url为特定页面的地址，webView、thirdParty同上
+WM.getInstance().loadSite(url, webView, thirdParty)
 ```
 
 * 退出网站
