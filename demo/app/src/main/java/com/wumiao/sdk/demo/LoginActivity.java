@@ -3,6 +3,7 @@ package com.wumiao.sdk.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, profile.name + getString(R.string.welcome), Toast.LENGTH_SHORT).show();
 
                 WM.getInstance().notifyLoginResult(WM.LoginResult.SUCCESS, "success");
+                finish();
             }
         });
         findViewById(R.id.login_failure).setOnClickListener(new View.OnClickListener() {
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, getString(R.string.login_failure), Toast.LENGTH_SHORT).show();
 
                 WM.getInstance().notifyLoginResult(WM.LoginResult.FAILURE, "failure");
+                finish();
             }
         });
         findViewById(R.id.login_cancel).setOnClickListener(new View.OnClickListener() {
@@ -59,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, getString(R.string.login_cancel), Toast.LENGTH_SHORT).show();
 
                 WM.getInstance().notifyLoginResult(WM.LoginResult.CANCELLED, "cancel");
+                finish();
             }
         });
 
@@ -96,5 +100,13 @@ public class LoginActivity extends AppCompatActivity {
 
             profileView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (KeyEvent.KEYCODE_BACK == keyCode) {
+            WM.getInstance().notifyLoginResult(WM.LoginResult.CANCELLED, "cancel");
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }
