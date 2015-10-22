@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        WM.getInstance().init(this, "984751bdb0f7f48d391b01a36bcbcbeb");
+        WM.getInstance().init(this, "9dc3cd7420baf4251823421ca1f0d163");
 
         findViewById(R.id.enter_5miao).setOnClickListener(new View.OnClickListener() {
             @Override

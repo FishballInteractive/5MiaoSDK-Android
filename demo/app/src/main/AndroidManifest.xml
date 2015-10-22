@@ -35,10 +35,10 @@
 
         <meta-data
             android:name="WM_APPID"
-            android:value="10000066" />
+            android:value="10000123" />
         <meta-data
             android:name="WM_CHANNEL"
-            android:value="yuwan01" />
+            android:value="demo01" />
     </application>
 
 </manifest>
