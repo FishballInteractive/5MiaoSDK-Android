@@ -3,6 +3,7 @@ package com.wumiao.sdk.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.ConsoleMessage;
@@ -12,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.wumiao.sdk.DefaultThirdParty;
+import com.wumiao.sdk.IThirdParty;
 import com.wumiao.sdk.WM;
 
 public class WMActivity extends AppCompatActivity {
@@ -22,6 +24,8 @@ public class WMActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wm);
+
+        WM.getInstance().init(this, "9dc3cd7420baf4251823421ca1f0d163");
 
         mWebView = (WebView) findViewById(R.id.webview);
         setupWebView(mWebView);
@@ -36,7 +40,7 @@ public class WMActivity extends AppCompatActivity {
             }
         });
 
-        WM.getInstance().loadSite(mWebView, new DefaultThirdParty() {
+        IThirdParty thirdParty = new DefaultThirdParty() {
 
             @Override
             public boolean isLoginSupported() {
@@ -67,7 +71,19 @@ public class WMActivity extends AppCompatActivity {
 
                 return true;
             }
-        });
+
+            @Override
+            public Intent getWebViewActivityIntent() {
+                return new Intent("wumiao.intent.action.sdk.WEB_VIEW_ACTIVITY");
+            }
+        };
+
+        String url = getIntent().getStringExtra("wumiao.intent.extra.sdk.WEB_VIEW_URL");
+        if (TextUtils.isEmpty(url)) {
+            WM.getInstance().loadSite(mWebView, thirdParty);
+        } else {
+            WM.getInstance().loadSite(url, mWebView, thirdParty);
+        }
     }
 
     private void setupWebView(WebView webView) {

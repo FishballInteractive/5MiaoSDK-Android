@@ -210,6 +210,44 @@ public class SampleActivity extends Activity {
 WM.getInstance().loadSite(url, webView, thirdParty)
 ```
 
+* 游戏快捷方式
+
+用户可以通过游戏内的“5秒悬浮按钮->收藏”添加游戏的快捷方式到桌面，开启该功能请按如下说明接入
+
+```xml
+<manifest>
+    <!--在manifest标签内插入5秒轻游戏SDK创建桌面快捷方式需要的权限-->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+</manifest>
+```
+
+```xml
+<application>
+    <activity
+        android:name=".YourWebViewActivityFor5Miao"
+        android:screenOrientation="portrait">
+            <intent-filter>
+                <!-- 定义Action或category使得桌面可以通过该intent-filter找到当前Activity的Intent，从而启动进入游戏。 -->
+                <!-- action或者category请改成与app信息相匹配的格式 -->
+                <action android:name="your-action" /> <!-- 或者用category -->
+                <!-- 以下必须加入，否则无法启动从外部启动当前Activity -->
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+</application>
+```
+
+```java
+// 调用 WM.getInstance().loadSite(webView, thirdParty)或WM.getInstance().loadSite(url, webView, thirdParty)
+// (见上文描述)时，传入的IThirdParty实例中getWebViewActivityIntent方法按如下实现：
+
+    @Override
+    public Intent getWebViewActivityIntent() {
+        // 此处的Intent必须与AndroidManifest.xml中WebViewActivity对应的intent-filter相匹配
+        return new Intent("your-action-or-category");
+    }
+```
+
 * 退出网站
 
 ```java
